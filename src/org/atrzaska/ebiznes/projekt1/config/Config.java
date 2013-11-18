@@ -1,4 +1,6 @@
-package org.atrzaska.ebiznes.projekt1;
+package org.atrzaska.ebiznes.projekt1.config;
+
+
 
 public class Config {
     public static String titlesFile = "data/places.csv";

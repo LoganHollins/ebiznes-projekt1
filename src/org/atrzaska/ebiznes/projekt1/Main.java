@@ -1,6 +1,10 @@
 package org.atrzaska.ebiznes.projekt1;
 
-import gui.GUI;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.atrzaska.ebiznes.projekt1.gui.GUI;
 
 public class Main {
 
@@ -38,8 +42,15 @@ public class Main {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new GUI().setVisible(true);
+                try {
+                    new GUI().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TasteException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

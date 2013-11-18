@@ -1,4 +1,4 @@
-package org.atrzaska.ebiznes.projekt1;
+package org.atrzaska.ebiznes.projekt1.api;
 
 public class Restaurant {
     private int id;
@@ -12,13 +12,20 @@ public class Restaurant {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String toString() {
+        return name;
     }
 }

@@ -1,4 +1,6 @@
-package org.atrzaska.ebiznes.projekt1;
+package org.atrzaska.ebiznes.projekt1.api;
+
+
 
 import java.util.ArrayList;
 
