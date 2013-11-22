@@ -1,7 +1,5 @@
 package org.atrzaska.ebiznes.projekt1.api;
 
-
-
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -9,7 +7,7 @@ import java.util.regex.Pattern;
 
 import org.atrzaska.ebiznes.util.FileUtils;
 
-public class UserList {
+public final class UserList {
 
     protected List<User> userList;
     protected Map<Integer, User> userMap;

@@ -40,7 +40,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="rekomendationList" alignment="0" max="32767" attributes="0"/>
+                  <Component id="recomendationList" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblrekomend" pref="58" max="32767" attributes="0"/>
@@ -77,7 +77,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblrekomend" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="rekomendationList" min="-2" pref="96" max="-2" attributes="0"/>
+              <Component id="recomendationList" min="-2" pref="96" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtOcenaRekomendacji" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -115,12 +115,12 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="java.awt.List" name="rekomendationList">
+    <Component class="java.awt.List" name="recomendationList">
       <Properties>
         <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="rekomendationList.add(&quot;abba&quot;);&#xa;rekomendationList.add(&quot;baba&quot;);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="recomendationList.add(&quot;abba&quot;);&#xa;recomendationList.add(&quot;baba&quot;);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblrekomend">

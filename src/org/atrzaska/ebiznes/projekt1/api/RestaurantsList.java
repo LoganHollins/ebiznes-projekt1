@@ -1,7 +1,5 @@
 package org.atrzaska.ebiznes.projekt1.api;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

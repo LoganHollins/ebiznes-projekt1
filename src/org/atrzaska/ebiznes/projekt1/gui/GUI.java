@@ -10,6 +10,10 @@ import org.atrzaska.ebiznes.projekt1.api.Restaurant;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommender;
 
 public final class GUI extends javax.swing.JFrame {
+
+    /**
+     * restaurantRecommender
+     */
     protected RestaurantRecommender restaurantRecommender;
 
     /**
@@ -18,6 +22,8 @@ public final class GUI extends javax.swing.JFrame {
      * @throws org.apache.mahout.cf.taste.common.TasteException
      */
     public GUI() throws IOException, TasteException {
+
+        // initComponents
         initComponents();
 
         // create recommender
@@ -25,28 +31,28 @@ public final class GUI extends javax.swing.JFrame {
 
         // skonstruowac dynamicznie liste
         this.boxRestauracje.setModel(new DefaultComboBoxModel(restaurantRecommender.getRestaurantsList().getAsList().toArray()));
-        
+
         // populate cold start list
         populateColdStartList();
     }
 
     public void populateColdStartList() throws TasteException {
-        this.populateRekomendationList(restaurantRecommender.getColdStartList());
+        this.populateRecomendationList(restaurantRecommender.getColdStartList());
     }
-    
-    public void populateRekomendationList(List<Restaurant> restaurants) {
-        this.rekomendationList.removeAll();
-    
+
+    public void populateRecomendationList(List<Restaurant> restaurants) {
+        this.recomendationList.removeAll();
+
         for (Restaurant restaurant : restaurants) {
-            this.rekomendationList.add(restaurant.getName());
+            this.recomendationList.add(restaurant.getName());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        rekomendationList = new java.awt.List();
+        recomendationList = new java.awt.List();
         lblrekomend = new javax.swing.JLabel();
         btnScoreRecommendation = new javax.swing.JButton();
         lblRestauracja = new javax.swing.JLabel();
@@ -65,9 +71,9 @@ public final class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        rekomendationList.setName(""); // NOI18N
-        rekomendationList.add("abba");
-        rekomendationList.add("baba");
+        recomendationList.setName(""); // NOI18N
+        recomendationList.add("abba");
+        recomendationList.add("baba");
 
         lblrekomend.setText("Propozycje");
 
@@ -121,7 +127,7 @@ public final class GUI extends javax.swing.JFrame {
                             .addComponent(lblPodobienstwoVal)
                             .addComponent(lblSimiliarUserName))
                         .addGap(10, 10, 10))
-                    .addComponent(rekomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblrekomend, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
@@ -149,7 +155,7 @@ public final class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblrekomend)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rekomendationList, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(recomendationList, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOcenaRekomendacji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,16 +190,16 @@ public final class GUI extends javax.swing.JFrame {
 
     private void btnScoreRecommendationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreRecommendationActionPerformed
         float val = Float.parseFloat(txtOcenaRekomendacji.getText());
-        Restaurant restaurant = restaurantRecommender.
-                getRestaurantsList().
-                getRestaurantByName(rekomendationList.getSelectedItem());
+        Restaurant restaurant = restaurantRecommender
+                .getRestaurantsList()
+                .getRestaurantByName(recomendationList.getSelectedItem());
 
         restaurantRecommender.getTempUser().rate(restaurant.getId(), val);
 
         try {
             List<Restaurant> recommendedRestaurants = restaurantRecommender.
                     recommendMoviesForTempUser();
-            this.populateRekomendationList(recommendedRestaurants);
+            this.populateRecomendationList(recommendedRestaurants);
         } catch (TasteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -208,7 +214,7 @@ public final class GUI extends javax.swing.JFrame {
         try {
             List<Restaurant> recommendedRestaurants = restaurantRecommender.
                     recommendMoviesForTempUser();
-            this.populateRekomendationList(recommendedRestaurants);
+            this.populateRecomendationList(recommendedRestaurants);
         } catch (TasteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -228,7 +234,7 @@ public final class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblSimiliarUserName;
     private javax.swing.JLabel lblpodobnyuzytkownik;
     private javax.swing.JLabel lblrekomend;
-    private java.awt.List rekomendationList;
+    private java.awt.List recomendationList;
     private javax.swing.JTextField txtOcenaRekomendacji;
     private javax.swing.JTextField txtOcenaRestauracji;
     // End of variables declaration//GEN-END:variables
