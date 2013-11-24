@@ -38,7 +38,7 @@ public class RestaurantRecommender {
     /**
      * dataModel
      */
-    protected DataModel dataModel;
+    private DataModel dataModel;
 
     /**
      * tempUser
@@ -59,7 +59,7 @@ public class RestaurantRecommender {
 
         System.out.println("tworze użytkownika tymczasowego");
         System.out.println("----------------------------------------------------------------------------------");
-        tempUser = new TempUser();
+        tempUser = new TempUser(this);
     }
 
     public RestaurantsList getRestaurantsList() {
@@ -67,7 +67,7 @@ public class RestaurantRecommender {
     }
     
     public void resetTempUser() {
-        setTempUser(new TempUser());
+        setTempUser(new TempUser(this));
     }
     
     public List<Restaurant> getColdStartList() throws TasteException {
@@ -77,9 +77,9 @@ public class RestaurantRecommender {
         float maxMean = 0;
 
         // iterate item ids
-        for (LongPrimitiveIterator it = dataModel.getItemIDs(); it.hasNext();) {
+        for (LongPrimitiveIterator it = getDataModel().getItemIDs(); it.hasNext();) {
             long itemID = it.next();
-            PreferenceArray preferenceArray = dataModel.getPreferencesForItem(itemID);
+            PreferenceArray preferenceArray = getDataModel().getPreferencesForItem(itemID);
 
             float sum = 0;
 
@@ -118,7 +118,7 @@ public class RestaurantRecommender {
 
     public List<Restaurant> recommendMoviesForTempUser() throws TasteException {
         // prepare new user's preferences
-        PlusAnonymousUserDataModel tempModel = new PlusAnonymousUserDataModel(dataModel);
+        PlusAnonymousUserDataModel tempModel = new PlusAnonymousUserDataModel(getDataModel());
         tempModel.setTempPrefs(tempUser.getPreferencesArray());
 
         // create recommender
@@ -134,11 +134,18 @@ public class RestaurantRecommender {
     public List<Restaurant> recommendMoviesForUser(int id) throws TasteException {
         // create recommender
         RecommenderBuilder recommenderBuilder = new RestaurantRecommenderBuilder();
-        Recommender recommender = recommenderBuilder.buildRecommender(dataModel);
+        Recommender recommender = recommenderBuilder.buildRecommender(getDataModel());
 
         // make recommendations for a new user
         List<RecommendedItem> recommendedItems = recommender.recommend(id, 5);
 
         return MahoutUtils.recommendedItemListToRestaurantList(recommendedItems, restaurantsList);
+    }
+
+    /**
+     * @return the dataModel
+     */
+    public DataModel getDataModel() {
+        return dataModel;
     }
 }

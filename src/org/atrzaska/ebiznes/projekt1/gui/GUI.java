@@ -8,6 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.atrzaska.ebiznes.projekt1.api.Restaurant;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommender;
+import org.atrzaska.ebiznes.projekt1.api.UserSimilarityResult;
 
 public final class GUI extends javax.swing.JFrame {
 
@@ -103,11 +104,7 @@ public final class GUI extends javax.swing.JFrame {
 
         lblpodobnyuzytkownik.setText("Najbardziej podobny użytkownik:");
 
-        lblSimiliarUserName.setText("null");
-
         lblPodobienstwoSt.setText("Stopień podobieństwa:");
-
-        lblPodobienstwoVal.setText("null");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,7 +196,13 @@ public final class GUI extends javax.swing.JFrame {
         try {
             List<Restaurant> recommendedRestaurants = restaurantRecommender.
                     recommendMoviesForTempUser();
+            
             this.populateRecomendationList(recommendedRestaurants);
+            
+            UserSimilarityResult usr = restaurantRecommender.getTempUser().GetMostSimiliarUser();
+
+            this.lblSimiliarUserName.setText(String.valueOf(usr.getUser().getId()));
+            this.lblPodobienstwoVal.setText(String.valueOf(usr.getSimilarity()));
         } catch (TasteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,12 +212,21 @@ public final class GUI extends javax.swing.JFrame {
         float val = Float.parseFloat(txtOcenaRestauracji.getText());
         Restaurant restaurant = (Restaurant) boxRestauracje.getSelectedItem();
 
+        // remove added index
+        //boxRestauracje.remove(boxRestauracje.getSelectedIndex());
+
         restaurantRecommender.getTempUser().rate(restaurant.getId(), val);
 
         try {
             List<Restaurant> recommendedRestaurants = restaurantRecommender.
                     recommendMoviesForTempUser();
+            
             this.populateRecomendationList(recommendedRestaurants);
+
+            UserSimilarityResult usr = restaurantRecommender.getTempUser().GetMostSimiliarUser();
+
+            this.lblSimiliarUserName.setText(String.valueOf(usr.getUser().getId()));
+            this.lblPodobienstwoVal.setText(String.valueOf(usr.getSimilarity()));
         } catch (TasteException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }

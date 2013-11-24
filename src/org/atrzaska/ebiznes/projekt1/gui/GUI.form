@@ -184,9 +184,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblSimiliarUserName">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="null"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPodobienstwoSt">
       <Properties>
@@ -194,9 +191,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPodobienstwoVal">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="null"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

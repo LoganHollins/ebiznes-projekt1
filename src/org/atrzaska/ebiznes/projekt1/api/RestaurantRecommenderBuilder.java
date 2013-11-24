@@ -24,7 +24,9 @@ public class RestaurantRecommenderBuilder implements RecommenderBuilder {
 //        UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.05, similarity, dataModel);
 
         Recommender recommender = new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
-        Recommender cachingRecommender = new CachingRecommender(recommender);
-        return cachingRecommender;
+        
+//        recommender = new CachingRecommender(recommender);
+        
+        return recommender;
     }
 }
