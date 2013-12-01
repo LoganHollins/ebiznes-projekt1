@@ -122,7 +122,7 @@ public class RestaurantRecommender {
         tempModel.setTempPrefs(tempUser.getPreferencesArray());
 
         // create recommender
-        RecommenderBuilder recommenderBuilder = new RestaurantRecommenderBuilder();
+        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
         Recommender recommender = recommenderBuilder.buildRecommender(tempModel);
 
         // make recommendations for a new user
@@ -133,7 +133,7 @@ public class RestaurantRecommender {
 
     public List<Restaurant> recommendMoviesForUser(int id) throws TasteException {
         // create recommender
-        RecommenderBuilder recommenderBuilder = new RestaurantRecommenderBuilder();
+        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
         Recommender recommender = recommenderBuilder.buildRecommender(getDataModel());
 
         // make recommendations for a new user

@@ -39,13 +39,14 @@ public class TempUser {
     public UserSimilarityResult GetMostSimiliarUser() throws TasteException {
         long tempId = PlusAnonymousUserDataModel.TEMP_USER_ID;
 
-        
         // prepare new user's preferences
         PlusAnonymousUserDataModel tempModel = new PlusAnonymousUserDataModel(restaurantRecommender.getDataModel());
         tempModel.setTempPrefs(this.getPreferencesArray());
 
+        System.out.println("GetMostSimiliarUser");
+
         // create recommender
-        RecommenderBuilder recommenderBuilder = new RestaurantRecommenderBuilder();
+        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
         GenericUserBasedRecommender recommender = (GenericUserBasedRecommender)recommenderBuilder.buildRecommender(tempModel);
 
         // get similar user id

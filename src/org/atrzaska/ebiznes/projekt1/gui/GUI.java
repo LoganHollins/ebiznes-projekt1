@@ -8,6 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.atrzaska.ebiznes.projekt1.api.Restaurant;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommender;
+import org.atrzaska.ebiznes.projekt1.api.TempUser;
 import org.atrzaska.ebiznes.projekt1.api.UserSimilarityResult;
 
 public final class GUI extends javax.swing.JFrame {
@@ -15,7 +16,7 @@ public final class GUI extends javax.swing.JFrame {
     /**
      * restaurantRecommender
      */
-    protected RestaurantRecommender restaurantRecommender;
+    private RestaurantRecommender restaurantRecommender;
 
     /**
      * Creates new form GUI
@@ -31,14 +32,14 @@ public final class GUI extends javax.swing.JFrame {
         this.restaurantRecommender = new RestaurantRecommender();
 
         // skonstruowac dynamicznie liste
-        this.boxRestauracje.setModel(new DefaultComboBoxModel(restaurantRecommender.getRestaurantsList().getAsList().toArray()));
+        this.boxRestauracje.setModel(new DefaultComboBoxModel(getRestaurantRecommender().getRestaurantsList().getAsList().toArray()));
 
         // populate cold start list
         populateColdStartList();
     }
 
     public void populateColdStartList() throws TasteException {
-        this.populateRecomendationList(restaurantRecommender.getColdStartList());
+        this.populateRecomendationList(getRestaurantRecommender().getColdStartList());
     }
 
     public void populateRecomendationList(List<Restaurant> restaurants) {
@@ -69,6 +70,7 @@ public final class GUI extends javax.swing.JFrame {
         lblSimiliarUserName = new javax.swing.JLabel();
         lblPodobienstwoSt = new javax.swing.JLabel();
         lblPodobienstwoVal = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,7 +106,18 @@ public final class GUI extends javax.swing.JFrame {
 
         lblpodobnyuzytkownik.setText("Najbardziej podobny użytkownik:");
 
+        lblSimiliarUserName.setText("0");
+
         lblPodobienstwoSt.setText("Stopień podobieństwa:");
+
+        lblPodobienstwoVal.setText("0");
+
+        jButton1.setText("Wybierz sposób rekomendacji");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,23 +127,10 @@ public final class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
-                    .addComponent(jSeparator2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblpodobnyuzytkownik)
-                            .addComponent(lblPodobienstwoSt))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPodobienstwoVal)
-                            .addComponent(lblSimiliarUserName))
-                        .addGap(10, 10, 10))
-                    .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblrekomend, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                            .addComponent(lblOcenaRekomendacji, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtOcenaRekomendacji)
+                        .addComponent(lblOcenaRekomendacji, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtOcenaRekomendacji, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnScoreRecommendation, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -140,10 +140,26 @@ public final class GUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtOcenaRestauracji)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(txtOcenaRestauracji, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAddScoreManual, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(boxRestauracje, 0, 224, Short.MAX_VALUE))))
+                            .addComponent(boxRestauracje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblrekomend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblpodobnyuzytkownik)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSimiliarUserName))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPodobienstwoSt)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPodobienstwoVal))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -151,25 +167,25 @@ public final class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblrekomend)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(recomendationList, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOcenaRekomendacji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblOcenaRekomendacji)
                     .addComponent(btnScoreRecommendation))
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRestauracja, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(boxRestauracje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOcenaRestauracji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddScoreManual)
                     .addComponent(lblOcena2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -179,7 +195,9 @@ public final class GUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPodobienstwoSt)
                     .addComponent(lblPodobienstwoVal))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -187,19 +205,21 @@ public final class GUI extends javax.swing.JFrame {
 
     private void btnScoreRecommendationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreRecommendationActionPerformed
         float val = Float.parseFloat(txtOcenaRekomendacji.getText());
-        Restaurant restaurant = restaurantRecommender
+        Restaurant restaurant = getRestaurantRecommender()
                 .getRestaurantsList()
                 .getRestaurantByName(recomendationList.getSelectedItem());
 
-        restaurantRecommender.getTempUser().rate(restaurant.getId(), val);
+        TempUser tempUser = getRestaurantRecommender().getTempUser();
+    
+        tempUser.rate(restaurant.getId(), val);
 
         try {
-            List<Restaurant> recommendedRestaurants = restaurantRecommender.
+            List<Restaurant> recommendedRestaurants = getRestaurantRecommender().
                     recommendMoviesForTempUser();
             
             this.populateRecomendationList(recommendedRestaurants);
             
-            UserSimilarityResult usr = restaurantRecommender.getTempUser().GetMostSimiliarUser();
+            UserSimilarityResult usr = tempUser.GetMostSimiliarUser();
 
             this.lblSimiliarUserName.setText(String.valueOf(usr.getUser().getId()));
             this.lblPodobienstwoVal.setText(String.valueOf(usr.getSimilarity()));
@@ -215,15 +235,17 @@ public final class GUI extends javax.swing.JFrame {
         // remove added index
         //boxRestauracje.remove(boxRestauracje.getSelectedIndex());
 
-        restaurantRecommender.getTempUser().rate(restaurant.getId(), val);
+        TempUser tempUser = getRestaurantRecommender().getTempUser();
+    
+        tempUser.rate(restaurant.getId(), val);
 
         try {
-            List<Restaurant> recommendedRestaurants = restaurantRecommender.
+            List<Restaurant> recommendedRestaurants = getRestaurantRecommender().
                     recommendMoviesForTempUser();
             
             this.populateRecomendationList(recommendedRestaurants);
 
-            UserSimilarityResult usr = restaurantRecommender.getTempUser().GetMostSimiliarUser();
+            UserSimilarityResult usr = tempUser.GetMostSimiliarUser();
 
             this.lblSimiliarUserName.setText(String.valueOf(usr.getUser().getId()));
             this.lblPodobienstwoVal.setText(String.valueOf(usr.getSimilarity()));
@@ -232,10 +254,16 @@ public final class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddScoreManualActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        RecommenderBuilderCreatorForm form = new RecommenderBuilderCreatorForm(restaurantRecommender);
+        form.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox boxRestauracje;
     private javax.swing.JButton btnAddScoreManual;
     private javax.swing.JButton btnScoreRecommendation;
+    private javax.swing.JButton jButton1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblOcena2;
@@ -250,5 +278,19 @@ public final class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtOcenaRekomendacji;
     private javax.swing.JTextField txtOcenaRestauracji;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the restaurantRecommender
+     */
+    public RestaurantRecommender getRestaurantRecommender() {
+        return restaurantRecommender;
+    }
+
+    /**
+     * @param restaurantRecommender the restaurantRecommender to set
+     */
+    public void setRestaurantRecommender(RestaurantRecommender restaurantRecommender) {
+        this.restaurantRecommender = restaurantRecommender;
+    }
 
 }
