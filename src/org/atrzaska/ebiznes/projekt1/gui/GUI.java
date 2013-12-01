@@ -12,6 +12,7 @@ import org.atrzaska.ebiznes.projekt1.api.TempUser;
 import org.atrzaska.ebiznes.projekt1.api.UserSimilarityResult;
 
 public final class GUI extends javax.swing.JFrame {
+    private RecommenderBuilderCreatorForm recommenderBuilderCreatorForm;
 
     /**
      * restaurantRecommender
@@ -30,6 +31,7 @@ public final class GUI extends javax.swing.JFrame {
 
         // create recommender
         this.restaurantRecommender = new RestaurantRecommender();
+        this.recommenderBuilderCreatorForm = new RecommenderBuilderCreatorForm(restaurantRecommender);
 
         // skonstruowac dynamicznie liste
         this.boxRestauracje.setModel(new DefaultComboBoxModel(getRestaurantRecommender().getRestaurantsList().getAsList().toArray()));
@@ -71,12 +73,19 @@ public final class GUI extends javax.swing.JFrame {
         lblPodobienstwoSt = new javax.swing.JLabel();
         lblPodobienstwoVal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         recomendationList.setName(""); // NOI18N
         recomendationList.add("abba");
         recomendationList.add("baba");
+        recomendationList.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                recomendationListItemStateChanged(evt);
+            }
+        });
 
         lblrekomend.setText("Propozycje");
 
@@ -91,6 +100,11 @@ public final class GUI extends javax.swing.JFrame {
 
         boxRestauracje.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "polute this with all restaurants" }));
         boxRestauracje.setName(""); // NOI18N
+        boxRestauracje.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                boxRestauracjeItemStateChanged(evt);
+            }
+        });
 
         lblOcenaRekomendacji.setText("Oceń:");
         lblOcenaRekomendacji.setToolTipText("");
@@ -119,6 +133,27 @@ public final class GUI extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informacje o restauracji"));
+
+        jLabel1.setText("wybierz restaurację, aby wyświetlić jej szczegóły");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,16 +172,14 @@ public final class GUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblRestauracja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblOcena2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(txtOcenaRestauracji, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAddScoreManual, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(boxRestauracje, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(lblrekomend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblpodobnyuzytkownik)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -159,7 +192,11 @@ public final class GUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(recomendationList, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -168,7 +205,9 @@ public final class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lblrekomend)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(recomendationList, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtOcenaRekomendacji, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,11 +298,27 @@ public final class GUI extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void boxRestauracjeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxRestauracjeItemStateChanged
+        Restaurant restaurant = (Restaurant) boxRestauracje.getSelectedItem();
+    
+        this.displayRstaurantInfo(restaurant);
+    }//GEN-LAST:event_boxRestauracjeItemStateChanged
+
+    private void recomendationListItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_recomendationListItemStateChanged
+        Restaurant restaurant = getRestaurantRecommender()
+                .getRestaurantsList()
+                .getRestaurantByName(recomendationList.getSelectedItem());
+        
+        this.displayRstaurantInfo(restaurant);
+    }//GEN-LAST:event_recomendationListItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox boxRestauracje;
     private javax.swing.JButton btnAddScoreManual;
     private javax.swing.JButton btnScoreRecommendation;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblOcena2;
@@ -291,6 +346,12 @@ public final class GUI extends javax.swing.JFrame {
      */
     public void setRestaurantRecommender(RestaurantRecommender restaurantRecommender) {
         this.restaurantRecommender = restaurantRecommender;
+    }
+
+    private void displayRstaurantInfo(Restaurant restaurant) {
+        String info = "Id: " + restaurant.getId() +
+                "Nazwa restauracji: " + restaurant.getName() +
+                "Strona www: " + restaurant.get
     }
 
 }

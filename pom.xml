@@ -77,11 +77,13 @@
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
     </build>
     <repositories>
+        <!--These are needed for Swing/Netbeans -->
         <repository>
-            <id>unknown-jars-temp-repo</id>
-            <name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
-            <url>file:${project.basedir}/lib</url>
-        </repository>
+            <id>maven2-repository.netbeans.maven2</id>
+            <name>Netbeans Maven Repository</name>
+            <url>http://bits.netbeans.org/maven2/</url>
+            <layout>default</layout>
+        </repository> 
     </repositories>
     <dependencies>
         <dependency>
@@ -120,9 +122,9 @@
             <version>3.7.15-M1</version>
         </dependency>
         <dependency>
-            <groupId>unknown.binary</groupId>
+            <groupId>org.netbeans.external</groupId>
             <artifactId>AbsoluteLayout</artifactId>
-            <version>SNAPSHOT</version>
+            <version>RELEASE74</version>
         </dependency>
     </dependencies>
 </project>
