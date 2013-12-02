@@ -1,8 +1,5 @@
 package org.atrzaska.ebiznes.projekt1.gui;
 
-import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
-import org.apache.mahout.cf.taste.recommender.Recommender;
-import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommender;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommenderBuilder;
 
@@ -12,9 +9,11 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
 
     /**
      * Creates new form RecommenderBuilderCreatorForm
+     * @param restaurantRecommender
      */
     public RecommenderBuilderCreatorForm(RestaurantRecommender restaurantRecommender) {
         this.restaurantRecommender = restaurantRecommender;
+    
         initComponents();
     }
 
@@ -216,10 +215,6 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
         this.txtWartosc.setText("10");
     }//GEN-LAST:event_radioNNUserBasedActionPerformed
 
-    private UserSimilarity getUserSimilarity() {
-        return null;
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox boxRecommenderType;
     private javax.swing.JComboBox boxSimilarityType;
