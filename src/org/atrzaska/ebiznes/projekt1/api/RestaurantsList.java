@@ -24,7 +24,7 @@ public final class RestaurantsList {
         String fileString = FileUtils.readFileAsString(path);
 
         // compile pattern for matching lines
-        Pattern pattern = Pattern.compile("(\\d+),[ ]*(.+)");
+        Pattern pattern = Pattern.compile("(\\d+),[ ]*(.+),[ ]*(.+),[ ]*(.+),[ ]*(.+)");
         Matcher matcher = pattern.matcher(fileString);
 
         // find matches
@@ -32,9 +32,12 @@ public final class RestaurantsList {
             // parse line
             int id = Integer.parseInt(matcher.group(1));
             String name = matcher.group(2);
+            String address = matcher.group(3);
+            String websiste = matcher.group(4);
+            String foodType = matcher.group(5);
 
             // set value
-            Restaurant restaurant = new Restaurant(id, name);
+            Restaurant restaurant = new Restaurant(id, name, address, websiste, foodType);
             restaurantsList.add(restaurant);
             restaurantsMap.put(id, restaurant);
             nameToIdMap.put(name, restaurant);
