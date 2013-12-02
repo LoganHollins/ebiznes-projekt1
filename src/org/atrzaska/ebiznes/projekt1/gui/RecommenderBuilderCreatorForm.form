@@ -72,7 +72,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelSposobWyboru" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <EmptySpace pref="45" max="32767" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnOK" min="-2" max="-2" attributes="0"/>
@@ -108,14 +108,12 @@
     <Component class="javax.swing.JComboBox" name="boxSimilarityType">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
-            <StringItem index="0" value="kosinusowa"/>
-            <StringItem index="1" value="cityblock"/>
-            <StringItem index="2" value="pearsona"/>
-            <StringItem index="3" value="log likelihood"/>
-            <StringItem index="4" value="tanimoto coefficient"/>
-            <StringItem index="5" value="spearman&apos;a"/>
-            <StringItem index="6" value="odleg&#x142;o&#x15b;&#x107; euklidesowa"/>
+          <StringArray count="5">
+            <StringItem index="0" value="UncenteredCosineSimilarity"/>
+            <StringItem index="1" value="PearsonCorrelationSimilarity"/>
+            <StringItem index="2" value="CityBlockSimilarity"/>
+            <StringItem index="3" value="TanimotoCoefficientSimilarity"/>
+            <StringItem index="4" value="EuclideanDistanceSimilarity"/>
           </StringArray>
         </Property>
       </Properties>
@@ -185,7 +183,7 @@
               <ComponentRef name="buttonGroup1"/>
             </Property>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="najbardziej podobnych u&#x17c;ytkownik&#xf3;w"/>
+            <Property name="text" type="java.lang.String" value="NearestNUserNeighborhood"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioNNUserBasedActionPerformed"/>
@@ -196,7 +194,7 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="u&#x17c;ytkownik&#xf3;w, kt&#xf3;rych profil jest zgodny "/>
+            <Property name="text" type="java.lang.String" value="ThresholdUserNeighborhood"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioThresholdBasedActionPerformed"/>

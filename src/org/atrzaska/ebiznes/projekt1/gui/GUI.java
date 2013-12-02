@@ -12,7 +12,7 @@ import org.atrzaska.ebiznes.projekt1.api.TempUser;
 import org.atrzaska.ebiznes.projekt1.api.UserSimilarityResult;
 
 public final class GUI extends javax.swing.JFrame {
-    private final RecommenderBuilderCreatorForm recommenderBuilderCreatorForm;
+    private RecommenderBuilderCreatorForm recommenderBuilderCreatorForm;
 
     /**
      * restaurantRecommender
@@ -29,6 +29,11 @@ public final class GUI extends javax.swing.JFrame {
         // initComponents
         initComponents();
 
+        // init recommender
+        init();
+    }
+    
+    private void init() throws IOException, TasteException {
         // create recommender
         this.restaurantRecommender = new RestaurantRecommender();
         this.recommenderBuilderCreatorForm = new RecommenderBuilderCreatorForm(restaurantRecommender);
@@ -72,7 +77,7 @@ public final class GUI extends javax.swing.JFrame {
         lblSimiliarUserName = new javax.swing.JLabel();
         lblPodobienstwoSt = new javax.swing.JLabel();
         lblPodobienstwoVal = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnSelectRecommender = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblRestaurantInfo = new javax.swing.JLabel();
 
@@ -126,10 +131,10 @@ public final class GUI extends javax.swing.JFrame {
 
         lblPodobienstwoVal.setText("0");
 
-        jButton1.setText("Wybierz sposób rekomendacji");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSelectRecommender.setText("Wybierz sposób rekomendacji");
+        btnSelectRecommender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSelectRecommenderActionPerformed(evt);
             }
         });
 
@@ -191,7 +196,7 @@ public final class GUI extends javax.swing.JFrame {
                         .addComponent(lblPodobienstwoVal))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(btnSelectRecommender))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(recomendationList, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,7 +239,7 @@ public final class GUI extends javax.swing.JFrame {
                     .addComponent(lblPodobienstwoSt)
                     .addComponent(lblPodobienstwoVal))
                 .addGap(11, 11, 11)
-                .addComponent(jButton1)
+                .addComponent(btnSelectRecommender)
                 .addContainerGap())
         );
 
@@ -292,10 +297,15 @@ public final class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddScoreManualActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RecommenderBuilderCreatorForm form = new RecommenderBuilderCreatorForm(restaurantRecommender);
-        form.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnSelectRecommenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectRecommenderActionPerformed
+        try {
+            restaurantRecommender.resetTempUser();
+            this.populateColdStartList();
+        recommenderBuilderCreatorForm.setVisible(true);
+        } catch (TasteException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSelectRecommenderActionPerformed
 
     private void boxRestauracjeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_boxRestauracjeItemStateChanged
         Restaurant restaurant = (Restaurant) boxRestauracje.getSelectedItem();
@@ -315,7 +325,7 @@ public final class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox boxRestauracje;
     private javax.swing.JButton btnAddScoreManual;
     private javax.swing.JButton btnScoreRecommendation;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSelectRecommender;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -348,11 +358,11 @@ public final class GUI extends javax.swing.JFrame {
     }
 
     private void displayRstaurantInfo(Restaurant restaurant) {
-        String info = "Id: " + restaurant.getId() + "\n" +
-                "Nazwa restauracji: " + restaurant.getName() + "\n" +
-                "Adres: " + restaurant.getAddress() + "\n" +
-                "Strona www: " + restaurant.getWebsite() + "\n" +
-                "Podawane jedzenie: " + restaurant.getFoodType();
+        String info = "<html>Id: " + restaurant.getId() + "<br>" +
+                "Nazwa restauracji: " + restaurant.getName() + "<br>" +
+                "Adres: " + restaurant.getAddress() + "<br>" +
+                "Strona www: " + restaurant.getWebsite() + "<br>" +
+                "Podawane jedzenie: " + restaurant.getFoodType() + "</html>";
         
         this.lblRestaurantInfo.setText(info);
     }

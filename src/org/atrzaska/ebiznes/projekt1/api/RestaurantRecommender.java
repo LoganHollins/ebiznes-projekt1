@@ -12,11 +12,7 @@ import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.common.LongPrimitiveIterator;
 import org.apache.mahout.cf.taste.impl.model.PlusAnonymousUserDataModel;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
-import org.apache.mahout.cf.taste.impl.model.jdbc.GenericJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.model.jdbc.ReloadFromJDBCDataModel;
 import org.apache.mahout.cf.taste.model.DataModel;
-import org.apache.mahout.cf.taste.model.JDBCDataModel;
 import org.apache.mahout.cf.taste.model.Preference;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
@@ -38,13 +34,18 @@ public class RestaurantRecommender {
     /**
      * dataModel
      */
-    private DataModel dataModel;
+    protected DataModel dataModel;
 
     /**
      * tempUser
      */
-    private TempUser tempUser;
+    protected TempUser tempUser;
 
+    /**
+     * recommender builder.
+     */
+    private RecommenderBuilder recommenderBuilder;
+    
     public RestaurantRecommender() throws IOException, TasteException {
         // read datamodel
         System.out.println("czytam model");
@@ -59,7 +60,12 @@ public class RestaurantRecommender {
 
         System.out.println("tworze użytkownika tymczasowego");
         System.out.println("----------------------------------------------------------------------------------");
+        
+        // create temp user
         tempUser = new TempUser(this);
+        
+        // create recommender builder
+        recommenderBuilder = new RestaurantRecommenderBuilder();
     }
 
     public RestaurantsList getRestaurantsList() {
@@ -122,8 +128,7 @@ public class RestaurantRecommender {
         tempModel.setTempPrefs(tempUser.getPreferencesArray());
 
         // create recommender
-        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
-        Recommender recommender = recommenderBuilder.buildRecommender(tempModel);
+        Recommender recommender = getRecommenderBuilder().buildRecommender(tempModel);
 
         // make recommendations for a new user
         List<RecommendedItem> recommendedItems = recommender.recommend(PlusAnonymousUserDataModel.TEMP_USER_ID, 5);
@@ -133,8 +138,7 @@ public class RestaurantRecommender {
 
     public List<Restaurant> recommendMoviesForUser(int id) throws TasteException {
         // create recommender
-        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
-        Recommender recommender = recommenderBuilder.buildRecommender(getDataModel());
+        Recommender recommender = getRecommenderBuilder().buildRecommender(getDataModel());
 
         // make recommendations for a new user
         List<RecommendedItem> recommendedItems = recommender.recommend(id, 5);
@@ -147,5 +151,12 @@ public class RestaurantRecommender {
      */
     public DataModel getDataModel() {
         return dataModel;
+    }
+
+    /**
+     * @return the recommenderBuilder
+     */
+    public RecommenderBuilder getRecommenderBuilder() {
+        return recommenderBuilder;
     }
 }

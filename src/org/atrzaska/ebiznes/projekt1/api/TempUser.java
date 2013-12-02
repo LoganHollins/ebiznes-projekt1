@@ -46,7 +46,7 @@ public class TempUser {
         System.out.println("GetMostSimiliarUser");
 
         // create recommender
-        RecommenderBuilder recommenderBuilder = new ItemBasedRestaurantRecommenderBuilder();
+        RecommenderBuilder recommenderBuilder = new RestaurantRecommenderBuilder();
         GenericUserBasedRecommender recommender = (GenericUserBasedRecommender)recommenderBuilder.buildRecommender(tempModel);
 
         // get similar user id

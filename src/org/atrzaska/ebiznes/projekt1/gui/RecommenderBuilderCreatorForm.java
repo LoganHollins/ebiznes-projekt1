@@ -4,7 +4,7 @@ import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommender;
-import org.atrzaska.ebiznes.projekt1.api.UserBasedRestaurantRecommenderBuilder;
+import org.atrzaska.ebiznes.projekt1.api.RestaurantRecommenderBuilder;
 
 public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
     
@@ -55,7 +55,7 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
 
         jLabel2.setText("Metoda obliczania podobieństwa");
 
-        boxSimilarityType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "kosinusowa", "cityblock", "pearsona", "log likelihood", "tanimoto coefficient", "spearman'a", "odległość euklidesowa" }));
+        boxSimilarityType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "UncenteredCosineSimilarity", "PearsonCorrelationSimilarity", "CityBlockSimilarity", "TanimotoCoefficientSimilarity", "EuclideanDistanceSimilarity" }));
 
         panelSposobWyboru.setBorder(javax.swing.BorderFactory.createTitledBorder("sposób wyboru podobnych użytkowników"));
 
@@ -63,7 +63,7 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
 
         buttonGroup1.add(radioNNUserBased);
         radioNNUserBased.setSelected(true);
-        radioNNUserBased.setText("najbardziej podobnych użytkowników");
+        radioNNUserBased.setText("NearestNUserNeighborhood");
         radioNNUserBased.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radioNNUserBasedActionPerformed(evt);
@@ -71,7 +71,7 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(radioThresholdBased);
-        radioThresholdBased.setText("użytkowników, których profil jest zgodny ");
+        radioThresholdBased.setText("ThresholdUserNeighborhood");
         radioThresholdBased.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radioThresholdBasedActionPerformed(evt);
@@ -161,7 +161,7 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
                     .addComponent(boxSimilarityType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSposobWyboru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOK)
@@ -184,12 +184,23 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
         String recommenderType = (String) boxRecommenderType.getSelectedItem();
         String similarityType = (String) boxSimilarityType.getSelectedItem();
         
-        Recommender recommender;
+        RestaurantRecommenderBuilder recommenderBuilder = (RestaurantRecommenderBuilder) restaurantRecommender.getRecommenderBuilder();
         
-        if(recommenderType.equalsIgnoreCase("na podstawie użytkowników")) {
-            recommender = this.createUserBasedRecommender();
+        if(recommenderType.equals("na podstawie użytkowników")) {
+            recommenderBuilder.setRecommenderType("user based");
+            recommenderBuilder.setSimilarityType(similarityType);
+            
+            if(radioNNUserBased.isSelected()) {
+                recommenderBuilder.setUserNeighborhoodType("NearestNUserNeighborhood");
+            } else {
+                recommenderBuilder.setUserNeighborhoodType("ThresholdUserNeighborhood");
+                
+            }
+            
+            recommenderBuilder.setUserNeightborhoodValue(txtWartosc.getText());
         } else {
-            recommender = this.createItemBasedRecommender();
+            recommenderBuilder.setRecommenderType("item based");
+            recommenderBuilder.setSimilarityType(similarityType);
         }
 
         this.setVisible(false);
@@ -206,14 +217,6 @@ public class RecommenderBuilderCreatorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_radioNNUserBasedActionPerformed
 
     private UserSimilarity getUserSimilarity() {
-        return null;
-    }
-
-    private Recommender createUserBasedRecommender() {
-        return null;
-    }
-
-    private Recommender createItemBasedRecommender() {
         return null;
     }
     
